@@ -13,7 +13,7 @@ var fs = require('fs'); //To read the random.txt file for the do-what-it-says fu
 
 var command = process.argv[2]; //For the switch statement
 var value = process.argv[3]; //To send the song/movie/concert to their respective functions
-
+console.log("command", command)
 switch (command) {
     case "concert-this":
         concertThis(value);
@@ -53,9 +53,11 @@ function concertThis(value) {
 }
 
 function spotifySong(value) {
+    console.log("About to Search Song", value)
     if(!value){
-        value = "The Sign";
+        value = "";
     }
+   
     spotify
     .search({ type: 'track', query: value })
     .then(function(response) {
@@ -79,14 +81,15 @@ function movieThis(value) {
     if(!value){
         value = "mr nobody";
     }
-    axios.get("https://www.omdbapi.com/?t=" + value + "&y=&plot=short&apikey=trilogy")
+    axios.get(" http://www.omdbapi.com/?t=" + value + "&apikey=2e621a2c")
     .then(function(response) {
+        console.log("MOVIES", response)
             var movieResults = 
                 "--------------------------------------------------------------------" +
                     "\nMovie Title: " + response.data.Title + 
                     "\nYear of Release: " + response.data.Year +
                     "\nIMDB Rating: " + response.data.imdbRating +
-                    "\nRotten Tomatoes Rating: " + response.data.Ratings[1].Value +
+                    "\nRotten Tomatoes Rating: " + response.data.Ratings.Value +
                     "\nCountry Produced: " + response.data.Country +
                     "\nLanguage: " + response.data.Language +
                     "\nPlot: " + response.data.Plot +
